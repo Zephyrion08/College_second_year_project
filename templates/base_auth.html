@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>TrulyExpenses {% block title %}{% endblock %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet" />
+
+    <!-- Feather icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+
+    <!-- Chart.js for charts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+  </head>
+  <body>
+        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">TrulyExpenses</a>
+      <ul
+        class="navbar-nav px-3"
+        style="display: flex; flex-direction: row; align-items: center"
+      >
+        {% if request.user.is_authenticated %}
+        <li class="nav-item text-nowrap">
+          <span class="nav-link">{{ request.user.username }}</span>
+        </li>
+        <li class="nav-item text-nowrap ml-3">
+          <form
+            action="{% url 'logout' %}"
+            method="POST"
+            style="display: inline"
+          >
+            {% csrf_token %}
+            <button
+              type="submit"
+              class="btn btn-outline-light btn-sm text-capitalize"
+            >
+              Sign out
+            </button>
+          </form>
+        </li>
+        {% else %}
+        <li class="nav-item text-nowrap ml-3">
+          <a
+            href="{% url 'login' %}"
+            class="btn btn-outline-light btn-sm text-capitalize"
+            >Sign in</a
+          >
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+
+
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Main content area -->
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          {% block content %}{% endblock %}
+        </main>
+      </div>
+    </div>
+
+    <!-- jQuery, Popper.js, and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script>
+      window.jQuery || document.write('<script src="{% static 'js/vendor/jquery.slim.min.js' %}"><\/script>')
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWld/tpbvHC1pPHTyOMeUFKPz/ClGeJSA6i/Poaf" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1

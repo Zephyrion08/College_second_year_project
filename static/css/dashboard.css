@@ -1,0 +1,82 @@
+/* Adjustments to ensure sidebar visibility with fixed-top navbar */
+body {
+  padding-top: 3.5rem; /* Height of fixed-top navbar */
+}
+
+.sidebar {
+  position: fixed;
+  top: 3.5rem; /* Height of fixed-top navbar */
+  bottom: 0;
+  left: 0;
+  z-index: 100; /* Ensure sidebar stays above content */
+  padding: 48px 0 0; /* Height of navbar */
+  width: 16.5rem; /* Adjust width if necessary */
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-sticky {
+  top: 3.5rem; /* Adjust for top offset */
+  height: calc(100vh - 3.5rem); /* Adjust for top offset */
+  padding-top: 0.5rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    width: 22rem; /* Larger width for medium and larger screens */
+  }
+}
+
+.sidebar .nav-link.active {
+  color: #007bff;
+}
+
+.sidebar .nav-link:hover .feather,
+.sidebar .nav-link.active .feather {
+  color: inherit;
+}
+
+.sidebar-heading {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+[role="main"] {
+  padding-top: 133px; /* Space for fixed navbar */
+}
+
+@media (min-width: 768px) {
+  [role="main"] {
+    padding-top: 48px; /* Adjusted space for fixed navbar on larger screens */
+  }
+}
+.navbar-brand {
+  padding-top: 0.75rem; /* Top padding for navbar brand */
+  padding-bottom: 0.75rem; /* Bottom padding for navbar brand */
+  font-size: 1rem; /* Font size for navbar brand */
+  background-color: rgba(0, 0, 0, 0.25); /* Background color with opacity */
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.25); /* Shadow effect */
+}
+
+.navbar .form-control {
+  padding: 0.75rem 1rem; /* Padding for form controls */
+  border-width: 0; /* No border */
+  border-radius: 0; /* No border radius */
+}
+
+.form-control-dark {
+  color: #fff; /* Text color for dark form controls */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ); /* Background color with opacity */
+  border-color: rgba(255, 255, 255, 0.1); /* Border color with opacity */
+}
+
+.form-control-dark:focus {
+  border-color: transparent; /* Transparent border color on focus */
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25); /* Box shadow on focus */
+}
