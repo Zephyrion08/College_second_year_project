@@ -1,41 +1,162 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'base.html' %} {% load static %} {% block content %}
+<style>
+  .label {
+    margin-bottom: 6px;
+    font-size: 12px;
+    font-weight: 700;
+  }
 
+  select,
+  button {
+    font-size: 15px;
+    font-weight: 300;
+    font-family: monospace;
+    text-transform: uppercase;
+    background: #fff;
+    border-radius: 2px;
+    width: 170px;
+    margin-bottom: 3%;
+  }
 
-
-{% block content %}
+  select:hover,
+  button:hover {
+    background-color: #3d3d3d;
+    color: #fff;
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
+  }
+</style>
 <div class="container mt-4">
   <div class="row">
     <div class="col-md-10">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="">Income Summary</a>
+            <a href="{% url 'income' %}">Income Summary</a>
           </li>
-          <li class="breadcrumb-item active" aria-current="page">
-           Summary
-          </li>
+          <li class="breadcrumb-item active" aria-current="page">Summary</li>
         </ol>
       </nav>
     </div>
 
     <div class="col-md-2">
-      <a href="/" class="btn btn-primary">BACK</a>
+      <a href="/" class="btn btn-primary">Back</a>
     </div>
-
   </div>
 
- <div class="row">
-<div class="col-md-8">
- <canvas id="myChart" width="400" height="400"></canvas>
-    </div><div class="col-md-4">
+  <div class="col-md-8">
+    <div class="row mt-4">
+      <div class="controls">
+        <h5 class="label">Chart Type</h5>
+        <select name="chartType" id="chartType">
+          <option value="doughnut">Doughnut</option>
+          <option value="line">Line</option>
+          <option value="bar">Bar</option>
+          <option value="radar">Radar</option>
+          <option value="polarArea">Polar Area</option>
+        </select>
+      </div>
+      <canvas id="myChart" width="400" height="400"></canvas>
     </div>
-
- </div>
+    <div class="col-md-4">
+      <!-- Add any summary information or additional content here -->
+    </div>
+  </div>
 </div>
 
-<script src="{% static 'js/istats.js' %}"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", (event) => {
+    let myChart;
 
+    const renderChart = (data, labels, chartType = "doughnut") => {
+      const ctx = document.getElementById("myChart").getContext("2d");
+
+      // Define default options
+      const options = {
+        responsive: true,
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+              },
+            },
+          ],
+        },
+      };
+
+      // Destroy previous chart if exists
+      if (myChart) {
+        myChart.destroy();
+      }
+
+      // Render new chart
+      myChart = new Chart(ctx, {
+        type: chartType,
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: "Expense Categories",
+              fill: false,
+              backgroundColor: [
+                "rgba(255, 99, 132, 0.2)",
+                "rgba(54, 162, 235, 0.2)",
+                "rgba(255, 206, 86, 0.2)",
+                "rgba(75, 192, 192, 0.2)",
+                "rgba(153, 102, 255, 0.2)",
+                "rgba(255, 159, 64, 0.2)",
+              ], // Function to get background color based on chart type
+              borderColor: [
+                "rgba(255, 99, 132, 1)",
+                "rgba(54, 162, 235, 1)",
+                "rgba(255, 206, 86, 1)",
+                "rgba(75, 192, 192, 1)",
+                "rgba(153, 102, 255, 1)",
+                "rgba(255, 159, 64, 1)",
+              ],
+              borderWidth: 1, // Function to get border color based on chart type
+              data: data,
+            },
+          ],
+        },
+        options: options,
+      });
+    };
+
+    const updateChartType = () => {
+      const newType = document.getElementById("chartType").value;
+      const currentData = myChart.data;
+      const currentOptions = myChart.options;
+
+      // Update background and border colors based on new chart type
+
+      myChart.destroy();
+      renderChart(currentData.datasets[0].data, currentData.labels, newType);
+    };
+
+    const getChartData = () => {
+      console.log("fetching");
+      fetch("/income/income_category_summary")
+        .then((res) => res.json())
+        .then((results) => {
+          console.log("results", results);
+          const category_data = results.income_category_data;
+          const [labels, data] = [
+            Object.keys(category_data),
+            Object.values(category_data),
+          ];
+          renderChart(data, labels);
+        });
+    };
+
+    // Attach onchange event listener after defining the functions
+    document
+      .getElementById("chartType")
+      .addEventListener("change", updateChartType);
+
+    // Fetch data and render the initial chart on page load
+    getChartData();
+  });
 </script>
 
 {% endblock content %}
