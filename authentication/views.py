@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from validate_email import validate_email
 from django.contrib import messages, auth
+from userpreferences.models import UserPreference  # Import your UserPreference model
 
 class UsernameValidationView(View):
     def post(self, request):
@@ -81,8 +82,16 @@ class LoginView(View):
 
             if user:
                 auth.login(request, user)
-                messages.success(request, f'Welcome, {user.username}! You are now logged in.')
-                return redirect('expenses')
+                
+                # Check if the user has preferences set
+                try:
+                    user_preferences = user.userpreference  # Replace with your actual related name
+                    if user_preferences.currency:
+                        return redirect('expenses')  # Redirect to expenses if preferences are set
+                    else:
+                        return redirect('preferences')  # Redirect to preferences if preferences are not set
+                except UserPreference.DoesNotExist:
+                    return redirect('preferences')  # Redirect to preferences if preferences object does not exist
 
             else:
                 messages.error(request, 'Invalid credentials, try again')
