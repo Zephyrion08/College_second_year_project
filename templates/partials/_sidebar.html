@@ -1,33 +1,18 @@
 {% load static %}
 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-  <div class="position-sticky">
+  <div class="sidebar-sticky">
     <ul class="nav flex-column">
       <li class="nav-item">
-        <a
-          class="nav-link {% if request.path == '/' %}active{% endif %}"
-          href="/"
-        >
+        <a class="nav-link active" href="#">
           <span data-feather="home"></span>
           Dashboard <span class="sr-only">(current)</span>
         </a>
       </li>
       <li class="nav-item">
-        <a
-          class="nav-link {% if request.path == '/expenses/' %}active{% endif %}"
-          href="{% url 'expenses' %}"
-        >
-          <span data-feather="file-text"></span>
-          Expenses
-        </a>
+        <a class="nav-link" href="{% url 'expenses' %}"> Expenses </a>
       </li>
       <li class="nav-item">
-        <a
-          class="nav-link {% if request.path == '/income/' %}active{% endif %}"
-          href="{% url 'income' %}"
-        >
-          <span data-feather="file-text"></span>
-          Income
-        </a>
+        <a class="nav-link" href="{% url 'income' %}"> Income </a>
       </li>
     </ul>
 
@@ -45,19 +30,10 @@
     </h6>
     <ul class="nav flex-column mb-2">
       <li class="nav-item">
-        <a
-          class="nav-link {% if request.path == '/stats/' %}active{% endif %}"
-          href="{% url 'stats' %}"
-        >
-          <span data-feather="file-text"></span>
-          Expenses Summary
-        </a>
+        <a class="nav-link" href="{% url 'stats'%}"> Expenses Summary </a>
       </li>
       <li class="nav-item">
-        <a
-          class="nav-link {% if request.path == '/istats/' %}active{% endif %}"
-          href="{% url 'istats' %}"
-        >
+        <a class="nav-link" href="{% url 'istats'%}">
           <span data-feather="file-text"></span>
           Income Summary
         </a>
@@ -78,28 +54,14 @@
     </h6>
     <ul class="nav flex-column mb-2">
       <li class="nav-item">
-        <a
-          class="nav-link {% if request.path == '/preferences/' %}active{% endif %}"
-          href="{% url 'preferences' %}"
-        >
-          <span data-feather="settings"></span>
-          General
-        </a>
+        <a class="nav-link" href="{% url 'preferences' %}"> General </a>
       </li>
       <li class="nav-item">
-        <a
-          class="nav-link {% if request.path == '/account/' %}active{% endif %}"
-          href="#"
-        >
-          <span data-feather="user"></span>
+        <a class="nav-link" href="#">
+          <span data-feather="file-text"></span>
           Account
         </a>
       </li>
     </ul>
   </div>
 </nav>
-
-<script src="https://unpkg.com/feather-icons"></script>
-<script>
-  feather.replace();
-</script>

@@ -43,6 +43,7 @@ Set up Django project:
 
 ```bash
   python manage.py migrate
+python manage.py makemigrations
 ```
 Create a superuser (for admin access):
 
